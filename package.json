@@ -1,0 +1,23 @@
+{
+  "name": "gvn-bot",
+  "version": "1.0.0",
+  "description": "private school server bot",
+  "main": "script.js",
+  "dependencies": {
+    "discord.js": "^12.0.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "script.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheWallovec/gvn-bot.git"
+  },
+  "author": "TheWallovec",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TheWallovec/gvn-bot/issues"
+  },
+  "homepage": "https://github.com/TheWallovec/gvn-bot#readme"
+}
