@@ -1,4 +1,5 @@
 const botconfig = require("./botconfig.json");
+const fs = require("fs")
 const Discord = require("discord.js");
 const bot = new Discord.Client({disableEveryone: true});
 
@@ -487,5 +488,12 @@ bot.on("message", async message =>
         
     }
 });
+
+bot.on("guildMemberAdd", async member => {
+    fs.readFile("onJoinString.txt", "utf8", (err, data) => {
+        if(err) console.log(err)
+        member.send(data)
+    })
+})
 
 bot.login(botconfig.token);
