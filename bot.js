@@ -3,6 +3,38 @@ const fs = require("fs")
 const Discord = require("discord.js");
 const bot = new Discord.Client({disableEveryone: true});
 
+async function randomWord(file){
+    fs.readFile(file, "utf8", (err, data) => {
+        if(err) console.log(err)
+        array = data.split(";")
+        return array[Math.random() * array.length]
+    })
+}
+
+function sklon5p(text){
+    sklon = text
+    if(text.startsWith("<@") && text.endsWith(">")){
+        return sklon
+    } else if(text.endsWith("a") || text.endsWith("u")){
+        sklon = text.substring(0, text.length - 2) + "o"
+    }else if(text.endsWith("ec")){
+        sklon = text.substring(0, text.length - 3) + "če"
+    }else if(text.endsWith("c")){
+        sklon = text.substring(0, text.length - 2) + "če"
+    }else if(text.endsWith("ek")){
+        sklon = text.substring(0, text.length - 3) + "ku"
+    }else if(text.endsWith("ph")){
+        sklon += "e"
+    }else if(text.endsWith("s") || text.endsWith("š") || text.endsWith("x") || text.endsWith("j") || text.endsWith("č") || text.endsWith("ř")){
+        sklon += "i"
+    }else if(text.endsWith("g") || text.endsWith("h") || text.endsWith("k") || text.endsWith("q")){
+        sklon += "u"
+    }else if(text.endsWith("i") || text.endsWith("í") || text.endsWith("e") || text.endsWith("é") || text.endsWith("o") || text.endsWith("y") || text.endsWith("á")){
+        sklon = text
+    }else sklon+="e"
+    return sklon
+}
+
 bot.on("ready", async () => 
 {
     console.log(`${bot.user.username} is online!`);
@@ -19,7 +51,10 @@ bot.on("message", async message =>
     let cmd = messageArray[0];
     let args = messageArray.slice(1);
     let author = message.member
-
+    if((cmd.startsWith(`${prefix}`) || cmd.startsWith("-") || cmd.startsWith("!")) && message.channel.id != "687022235235778625"){
+        message.channel.send("<@"+message.author.id+"> ty jsi retardovaný? To patří do <#687022235235778625>!")
+        return ;
+    }
     if(cmd === `${prefix}addrole`)
     {
         switch(args[0]){
@@ -250,6 +285,7 @@ bot.on("message", async message =>
             default:
                 message.channel.send("Taková třída neexistuje!")
         }
+        return ;
 
     }
     if(cmd === `${prefix}removerole`){
@@ -485,8 +521,22 @@ bot.on("message", async message =>
             default:
                 message.channel.send("Taková třída neexistuje!")
         }
-        
+        return ;
     }
+    /*if(cmd === `${prefix}insult`){
+        nekdo = args[0]
+        pridJm1 = await randomWord("pridJm.txt")
+        do{
+            reset = false
+            console.log("infinite loops are bad")
+            pridJm2 = await randomWord("pridJm.txt")
+            if(pridJm2 == pridJm1){
+                reset = true
+            } else reset = false
+        }while(reset)
+        nadavka = sklon5p(await randomWord("nadavky.txt"))
+        message.channel.send(sklon5p(nekdo) + " ty " + pridJm1 + " " + pridJm2 + " " + nadavka + "!")
+    }*/
 });
 
 bot.on("guildMemberAdd", async member => {
@@ -496,4 +546,4 @@ bot.on("guildMemberAdd", async member => {
     })
 })
 
-bot.login(botconfig.token);
+bot.login(botconfig.prefix);
